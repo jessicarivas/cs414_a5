@@ -45,47 +45,9 @@ public class ParkingGarageServer extends JFrame implements ActionListener
  // handle button events
  public void actionPerformed( ActionEvent event )
   {
-   if (event.getSource() == saveButton)
-      doSaveData ();
-
-   else if (event.getSource() == exitButton)
+   if (event.getSource() == exitButton)
       doShutDownServer();
   }
-
- public void doSaveData()
-  {
-   try
-   {
-
-   String s = (String)JOptionPane.showInputDialog(
-                    this,
-                    "Enter Filename to Save Bidder Data:\n",
-                    "Save Bidder Data",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    "bidder.csv");
-
-   if (s != null)
-//	   parkingGarage.writeBidders(s);
-
-   s = (String)JOptionPane.showInputDialog(
-                    this,
-                    "Enter Filename to Save Item Data:\n",
-                    "Save Item Data",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    "item.csv");
-
-//   if (s != null)
-//	   parkingGarage.writeItems(s);
-   }
-   catch (Exception e)
-   {
-    e.printStackTrace();
-   } 
-  }   
 
  public void doShutDownServer()
   {
