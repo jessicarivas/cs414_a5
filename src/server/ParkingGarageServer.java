@@ -111,22 +111,22 @@ public class ParkingGarageServer extends JFrame implements ActionListener
       startRegistry(RMIPortNum);
 
       // set up the database
-      ParkingGarageImpl dc = new ParkingGarageImpl();
+      ParkingGarageImpl parkingGarage = new ParkingGarageImpl();
 
       registryURL = 
-        "rmi://localhost:" + RMIPortNum + "/AuctionServer";
+        "rmi://localhost:" + RMIPortNum + "/ParkingGarageServer";
 
-      Naming.rebind(registryURL, dc);
-      System.out.println("Auction Server ready.");
+      Naming.rebind(registryURL, parkingGarage);
+      System.out.println("Garage Server ready.");
 
-      ParkingGarageServer application = new ParkingGarageServer(dc);
+      ParkingGarageServer application = new ParkingGarageServer(parkingGarage);
       application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
     }// end try
 
     catch (Exception re) {
       System.out.println(
-        "Exception in AuctionServer.main: " + re);
+        "Exception in ParkingGarageServer.main: " + re);
     } // end catch
   } // end main
 

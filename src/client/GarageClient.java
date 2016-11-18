@@ -34,6 +34,14 @@ public GarageClient (ParkingGarage garage) {
 	
 	 ParkingGarageController controller = new ParkingGarageController();
 	 ParkingGarageView view = new ParkingGarageView();
+	 
+	  //Notify each component of the other components it needs
+	  controller.addModel(_garage);
+	  view.addModel(_garage);
+	  view.addController(controller);
+	  
+	  //Build the application, then show it on the screen
+	  view.build();
 }
 
 // run the program using
