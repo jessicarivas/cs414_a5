@@ -35,16 +35,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
    // get content pane and set its layout
    Container container = getContentPane();
    container.setLayout( layout );  
-
-   // set up the save button
-   saveButton = new JButton ("Save Data to File");
-   saveButton.addActionListener (this);
-   container.add (saveButton);
-
-   // set up the exit button
-   exitButton = new JButton ("Shut Down Server");
-   exitButton.addActionListener (this);
-   container.add (exitButton);
+   
 
    setSize( 700, 500 );
    setVisible( true );
@@ -76,7 +67,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
                     "bidder.csv");
 
    if (s != null)
-      dc.writeBidders(s);
+//	   parkingGarage.writeBidders(s);
 
    s = (String)JOptionPane.showInputDialog(
                     this,
@@ -87,8 +78,8 @@ public class ParkingGarageServer extends JFrame implements ActionListener
                     null,
                     "item.csv");
 
-   if (s != null)
-      dc.writeItems(s);
+//   if (s != null)
+//	   parkingGarage.writeItems(s);
    }
    catch (Exception e)
    {
@@ -107,7 +98,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
 
    try{     
       
-      int RMIPortNum = 20000;
+      int RMIPortNum = 20002;
       startRegistry(RMIPortNum);
 
       // set up the database

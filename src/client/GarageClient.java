@@ -41,7 +41,13 @@ public GarageClient (ParkingGarage garage) {
 	  view.addController(controller);
 	  
 	  //Build the application, then show it on the screen
-	  view.build();
+	  try {
+		view.build();
+	} catch (RemoteException e) {
+		e.printStackTrace();
+	}
+	view.show();
+
 }
 
 // run the program using

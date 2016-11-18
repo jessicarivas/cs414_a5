@@ -50,7 +50,6 @@ public class ParkingGarageView extends JFrame
 		{
 	        final int numButtons = 3;
 	        JRadioButton[] radioButtons = new JRadioButton[numButtons];
-	        
 	        final String enterGarageCommand = "default";
 	        final String exitGarageCommand = "exit";
 	        final String logInAdminCommand = "login";
