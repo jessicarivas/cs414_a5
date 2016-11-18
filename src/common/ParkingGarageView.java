@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -45,7 +46,7 @@ public class ParkingGarageView extends JFrame
 	  //  with the appropriate display and buttons
 	  //GUI applications have lots of little details to specify to make
 	  //  them look nice, and this method is in charge of them all
-		public void build()
+		public void build() throws RemoteException
 		{
 	        final int numButtons = 3;
 	        JRadioButton[] radioButtons = new JRadioButton[numButtons];
@@ -127,7 +128,11 @@ public class ParkingGarageView extends JFrame
 						} catch (RemoteException e1) {
 							e1.printStackTrace();
 						}
-                		update();
+                		try {
+							update();
+						} catch (RemoteException e2) {
+							e2.printStackTrace();
+						}
                 		Object[] options = {"Enter garage"};
                 		int n = JOptionPane.showOptionDialog(mainMenu,
                 				"Thank you for using our garage. Your ticket number is: " + ticketNumber  + ". Gate is now open. Please take your ticket and enter garage.", 
@@ -144,7 +149,12 @@ public class ParkingGarageView extends JFrame
 							} catch (Exception e1) {
 								e1.printStackTrace();
 							}
-							update();
+							try {
+								update();
+							} catch (RemoteException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
                 	}
 
@@ -161,16 +171,26 @@ public class ParkingGarageView extends JFrame
 		                    JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE,
 		                    null, options, null);
 		            if (result == JOptionPane.YES_OPTION){
-		            	if (!controller.getTicket(textField.getText())) {
-		            		JOptionPane.showMessageDialog(mainMenu,
-	                				"Incorrect ticket number. Please try again.");
-		            		} else {
-		            			cost = controller.getTicketCost(textField.getText());
-				            	JOptionPane.showMessageDialog(mainMenu,
-				                        "Total ticket fee is $" + cost + ".");
-		            		}	
+		            	try {
+							if (!controller.getTicket(textField.getText())) {
+								JOptionPane.showMessageDialog(mainMenu,
+										"Incorrect ticket number. Please try again.");
+								} else {
+									cost = controller.getTicketCost(textField.getText());
+							    	JOptionPane.showMessageDialog(mainMenu,
+							                "Total ticket fee is $" + cost + ".");
+								}
+						} catch (HeadlessException e1) {
+							e1.printStackTrace();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}	
 		            } else if (result == JOptionPane.NO_OPTION) {
-		            	cost = controller.getLostTicketFee();
+		            	try {
+							cost = controller.getLostTicketFee();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
 		            	JOptionPane.showMessageDialog(mainMenu,
 		                        "Lost ticket fee is $" + cost + ".");
 		            }
@@ -202,8 +222,16 @@ public class ParkingGarageView extends JFrame
 				                    null, cashOptions, null);		            	
 			            }
 			            if (submitPayment == JOptionPane.YES_OPTION) {
-			            	controller.payTicket(cost);
-			            	update();
+			            	try {
+								controller.payTicket(cost);
+							} catch (RemoteException e1) {
+								e1.printStackTrace();
+							}
+			            	try {
+								update();
+							} catch (RemoteException e2) {
+								e2.printStackTrace();
+							}
 	                		Object[] exitOptions = {"Exit garage"};
 	                		int n = JOptionPane.showOptionDialog(mainMenu,
 	                				"Thank you for using our garage. Gate is now open. Please exit garage.", 
@@ -215,8 +243,16 @@ public class ParkingGarageView extends JFrame
 	                				exitOptions[0]
 	                				);
 	                		if (n == JOptionPane.OK_OPTION) {
-	                			controller.closeGate();
-	                			update();
+	                			try {
+									controller.closeGate();
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
+	                			try {
+									update();
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
 	                		}
 			            } else {
 	                		JOptionPane.showMessageDialog(mainMenu,
@@ -240,12 +276,18 @@ public class ParkingGarageView extends JFrame
 		                    JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE,
 		                    null, options, null);   
 		            if (result == JOptionPane.OK_OPTION) {
-		            	if(controller.logInAdmin(userField.getText(), passwordField.getText())) {
-		            		launchAdminPanel();
-		            	} else {
-	                		JOptionPane.showMessageDialog(mainMenu,
-	                				"Incorrect password. Please try again.");		            		
-		            	}
+		            	try {
+							if(controller.logInAdmin(userField.getText(), passwordField.getText())) {
+								launchAdminPanel();
+							} else {
+								JOptionPane.showMessageDialog(mainMenu,
+										"Incorrect password. Please try again.");		            		
+							}
+						} catch (HeadlessException e1) {
+							e1.printStackTrace();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
 		            }
                 }
             }
@@ -313,8 +355,16 @@ public class ParkingGarageView extends JFrame
 				                    JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE,
 				                    null, applyOption, null);
 		                	if (controller.isNumber(textField.getText())) {
-		                		controller.changeGarageOccupancy(textField.getText());
-		                		update();
+		                		try {
+									controller.changeGarageOccupancy(textField.getText());
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
+		                		try {
+									update();
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
 		                	} else {
 		                		JOptionPane.showMessageDialog(adminMenu,
 		                				"Invalid value. Please try again.");	
@@ -330,8 +380,16 @@ public class ParkingGarageView extends JFrame
 				                    JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE,
 				                    null, applyOption, null);
 		                	if (controller.isNumber(textField.getText())) {
-		                		controller.changeDriverTotal(textField.getText());
-		                		update();
+		                		try {
+									controller.changeDriverTotal(textField.getText());
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
+		                		try {
+									update();
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
 		                	} else {
 		                		JOptionPane.showMessageDialog(adminMenu,
 		                				"Invalid value. Please try again.");	
@@ -352,7 +410,12 @@ public class ParkingGarageView extends JFrame
 					            int timeFrame = JOptionPane.showOptionDialog(null, panel, "Garage Usage",
 					                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
 					                    null, timeOptions, null);
-					            String usage = controller.getUsageString(usageType, timeFrame);
+					            String usage = "";
+								try {
+									usage = controller.getUsageString(usageType, timeFrame);
+								} catch (RemoteException e1) {
+									e1.printStackTrace();
+								}
 		                		JOptionPane.showMessageDialog(adminMenu, usage);
 		                    }
 				            
@@ -405,8 +468,8 @@ public class ParkingGarageView extends JFrame
 		}
 	 			
 	  //When the model changes, it calls update.
-		void update() {
-			int availability = garage.getAvailability();
+		void update() throws RemoteException {
+			int availability = controller.getAvailability();
 			String gateOpen = garage.getGatePosition();
 
 			sign.setText  ("parking spots: " + availability);
