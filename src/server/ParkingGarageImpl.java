@@ -14,7 +14,7 @@ import common.*;
 
 public class ParkingGarageImpl 
 	extends 	java.rmi.server.UnicastRemoteObject
-    	implements	ParkingGarage
+    implements	ParkingGarage
 {
 	private ParkingGarageView _view;
 	private int _totalSpots;
@@ -29,13 +29,10 @@ public class ParkingGarageImpl
 	private Bank _bank;
 	
  public ParkingGarageImpl ()
-   {	
-//	 super();
-	
-	public ParkingGarage() 
-		throws java.rmi.RemoteException
-		{
-		_totalSpots = 0;
+	throws java.rmi.RemoteException {	
+		 super();
+		
+		 _totalSpots = 0;
 		_totalDrivers = 0;
 		_lostTicketFee = 500;
 		_hourlyCost = 1;
@@ -46,8 +43,8 @@ public class ParkingGarageImpl
 		addAdministrator("admin", "password");
 		gUsage = new GarageUsage();
 		_bank = new Bank();
-	}
-	
+ 	}
+
 	public void addAdministrator(String name, String password) 
 			throws java.rmi.RemoteException {
 		Boolean containsAdmin = false;
@@ -64,34 +61,43 @@ public class ParkingGarageImpl
 		}
 	}
 
-	public int getTotalOccupancy() {
+	public int getTotalOccupancy() 
+			throws java.rmi.RemoteException {
 		return _totalSpots;		
 	}
 
-	public int getAvailability() {
+	public int getAvailability() 
+			throws java.rmi.RemoteException {
 		return (_totalSpots - _totalDrivers);		
 	}
 	
-	public void addView(ParkingGarageView view) {
-		  {_view = view;}		
+	public void addView(ParkingGarageView view) 
+			throws java.rmi.RemoteException {
+		  _view = view;		
 	}
 
-	public void openGate() {
+	public void openGate() 
+			throws java.rmi.RemoteException {
 		_gateOpen = true;
 	}
 
-	public void closeGate() {
+	public void closeGate() 
+			throws java.rmi.RemoteException {
+
 		_gateOpen = false;
 	}
 	
-	public String getGatePosition() {
+	public String getGatePosition() 
+			throws java.rmi.RemoteException {
+
 		if (_gateOpen)
 			return "open";
 		else 
 			return "closed";
 	}
 	
-	public int printTicket() {
+	public int printTicket() 
+			throws java.rmi.RemoteException {
 		addDriver();
 		_ticketTracker++;
 		Driver driver = new Driver(_ticketTracker, _hourlyCost);
@@ -100,22 +106,27 @@ public class ParkingGarageImpl
 		return _ticketTracker;
 	}
 
-	public void addDriver() {
+	public void addDriver() 
+			throws java.rmi.RemoteException {
+
 		if(getAvailability() > 0)
 			_totalDrivers++;
 	}
 	
-	public void removeDriver() {
+	public void removeDriver()
+			throws java.rmi.RemoteException {
 		if (_totalDrivers > 0)
 			_totalDrivers--;
 	}
 	
-	public void payTicket(int payment) {
+	public void payTicket(int payment) 
+			throws java.rmi.RemoteException {
 		_bank.addPayment(payment);
 		removeDriver();
 	}
 
-	public boolean containsTicket(String text) {
+	public boolean containsTicket(String text) 
+			throws java.rmi.RemoteException {
 		int ticket = 0;
 		try {
 		    ticket = Integer.parseInt(text);
@@ -132,11 +143,13 @@ public class ParkingGarageImpl
 		return false;
 	}
 
-	public int getLostTicketFee() {
+	public int getLostTicketFee() 
+			throws java.rmi.RemoteException {
 		return _lostTicketFee;
 	}
 	
-	private Driver getDriver(int ticket) {
+	private Driver getDriver(int ticket)
+			throws java.rmi.RemoteException {
 		for (Driver driver: _drivers) {
 			int id = driver.getTicketNumber();
 			if ((id == ticket)) {
@@ -146,13 +159,15 @@ public class ParkingGarageImpl
 		return null;
 	}
 
-	public int getTicketCost(int ticket) {
+	public int getTicketCost(int ticket)
+			throws java.rmi.RemoteException {
 		Driver driver = getDriver(ticket);
 		int cost = driver.getTicketCost();
 		return cost;
 	}
 
-	public Boolean logInAdmin(String username, String password) {
+	public Boolean logInAdmin(String username, String password)
+			throws java.rmi.RemoteException {
 		for (Administrator admin: _admins) {
 			String name = admin.getUsername();
 			String pwd = admin.getPassword();
@@ -163,19 +178,22 @@ public class ParkingGarageImpl
 		return false;
 	}
 
-	public void setTotalOccupancy(int number) {
+	public void setTotalOccupancy(int number)
+			throws java.rmi.RemoteException {
 		if (number >= _totalDrivers && number > 0) {
 			_totalSpots = number;
 		}
 	}
 
-	public void setTotalDrivers(int number) {
+	public void setTotalDrivers(int number)
+			throws java.rmi.RemoteException {
 		if (_totalSpots >= number && number > 0) {
 			_totalDrivers = number;
 		} 
 	}
 
-	public String getUsageString(String type, String time) {
+	public String getUsageString(String type, String time)
+			throws java.rmi.RemoteException {
 		String usage = "";
 		if (type == "Finance") {
 			usage = gUsage.getFinanceUsage(time);

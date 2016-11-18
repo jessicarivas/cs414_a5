@@ -1,6 +1,9 @@
 package common.tests;
 
 import static org.junit.Assert.*;
+
+import java.rmi.RemoteException;
+
 import server.ParkingGarageImpl;
 
 import org.junit.Before;
@@ -14,7 +17,7 @@ public class BankTest {
 	private ParkingGarage garage;
 	
 	@Before
-	public void initialize() {
+	public void initialize() throws RemoteException {
 		garage = new ParkingGarageImpl();
 	}
 

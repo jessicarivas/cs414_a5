@@ -16,7 +16,7 @@ public class AdministratorTest {
 	private ParkingGarage garage;
 	
 	@Before
-	public void initialize() {
+	public void initialize() throws RemoteException {
 		garage = new ParkingGarageImpl();
 	}
 	
