@@ -1,5 +1,7 @@
 package common;
 
+import java.rmi.RemoteException;
+
 public class ParkingGarageController
 {
 
@@ -16,13 +18,15 @@ public class ParkingGarageController
 		garage = g;
 	}
 
-public int printTicket() {
+public int printTicket() 
+		throws RemoteException {
 	garage.openGate();
 	int ticket = garage.printTicket();
 	return ticket;
 }
 
-public void payTicket(int cost) {
+public void payTicket(int cost) 
+		throws RemoteException {
 	garage.openGate();
 	garage.payTicket(cost);
 }
@@ -31,22 +35,25 @@ public void logInAdmin() {
 	
 }
 
-public void closeGate() {
+public void closeGate() throws RemoteException {
 	garage.closeGate();
 }
 
-public boolean getTicket(String text) {
+public boolean getTicket(String text) 
+		throws RemoteException {
 	if (garage.containsTicket(text)) {
 		return true;
 	}  
 	return false;
 }
 
-public int getLostTicketFee() {
+public int getLostTicketFee() 
+		throws RemoteException {
 	return garage.getLostTicketFee();
 }
 
-public int getTicketCost(String id) {
+public int getTicketCost(String id) 
+		throws RemoteException {
 	int ticket = 0;
 	try {
 	    ticket = Integer.parseInt(id);
@@ -55,7 +62,8 @@ public int getTicketCost(String id) {
 	return garage.getTicketCost(ticket);
 }
 
-public Boolean logInAdmin(String username, String password) {
+public Boolean logInAdmin(String username, String password) 
+		throws RemoteException {
 	return (garage.logInAdmin(username, password));
 	// TODO Auto-generated method stub
 	
@@ -71,7 +79,8 @@ public boolean isNumber(String text) {
 	return true;
 }
 
-public void changeGarageOccupancy(String text) {
+public void changeGarageOccupancy(String text) 
+		throws RemoteException {
 	int number = 0;
 	try {
 	    number = Integer.parseInt(text);
@@ -81,7 +90,8 @@ public void changeGarageOccupancy(String text) {
 	
 }
 
-public void changeDriverTotal(String text) {
+public void changeDriverTotal(String text) 
+		throws RemoteException {
 	int number = 0;
 	try {
 	    number = Integer.parseInt(text);
@@ -90,7 +100,8 @@ public void changeDriverTotal(String text) {
 	garage.setTotalDrivers(number);	
 }
 
-public String getUsageString(int usageType, int timeFrame) {
+public String getUsageString(int usageType, int timeFrame) 
+		throws RemoteException {
 	String[] typeArray = {"Finance", "Occupancy"};
 	String[] timeArray = {"Hour", "Day", "Week", "Month"};
 	String usage = garage.getUsageString(typeArray[usageType], timeArray[timeFrame]);
