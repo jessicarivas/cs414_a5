@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.rmi.RemoteException;
 
 
 
@@ -108,14 +109,24 @@ public class ParkingGarageView extends JFrame
         mainMenuButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String command = group.getSelection().getActionCommand();
-
+                int availability = 0;
+                try {
+					availability = controller.getAvailability();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
                 //ok dialog
                 if (command == enterGarageCommand) {
-                	if (garage.getAvailability() == 0) {
+                	if (availability == 0) {
                 		JOptionPane.showMessageDialog(mainMenu,
                 				"No garage availability. Please come back later.");
                 	} else {
-                		int ticketNumber = controller.printTicket();
+                		int ticketNumber = 0;
+						try {
+							ticketNumber = controller.printTicket();
+						} catch (RemoteException e1) {
+							e1.printStackTrace();
+						}
                 		update();
                 		Object[] options = {"Enter garage"};
                 		int n = JOptionPane.showOptionDialog(mainMenu,
@@ -128,9 +139,13 @@ public class ParkingGarageView extends JFrame
                 				options[0]
                 				);
                 		if (n == JOptionPane.OK_OPTION) {
-                			controller.closeGate();
-                			update();
-                		}
+							try {
+								controller.closeGate();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							update();
+						}
                 	}
 
                 } else if (command == exitGarageCommand) {

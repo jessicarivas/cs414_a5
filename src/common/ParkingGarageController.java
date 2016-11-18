@@ -109,6 +109,10 @@ public String getUsageString(int usageType, int timeFrame)
 	
 }
 
+public int getAvailability() throws RemoteException {
+	return garage.getAvailability();
+}
+
 }
 
 
