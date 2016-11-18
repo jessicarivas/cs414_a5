@@ -1,8 +1,10 @@
-package common;
+package common.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import common.Driver;
 
 public class DriverTest {
 

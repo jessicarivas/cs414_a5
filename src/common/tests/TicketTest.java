@@ -1,9 +1,16 @@
-package common;
+package common.tests;
 
 import static org.junit.Assert.*;
 
+import java.rmi.RemoteException;
+
+import server.ParkingGarageImpl;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import common.ParkingGarage;
+import common.Ticket;
 
 public class TicketTest {
 
@@ -12,7 +19,7 @@ public class TicketTest {
 	
 	@Before
 	public void initialize() {
-		garage = new ParkingGarage();
+		garage = new ParkingGarageImpl();
 	}
 
 	@Test
@@ -23,19 +30,19 @@ public class TicketTest {
 	}
 	
 	@Test
-	public void testGarageTickets() {
+	public void testGarageTickets() throws RemoteException {
 		garage.printTicket();
 		assertEquals(true, garage.containsTicket("1"));
 	}
 	
 	@Test
-	public void testGarageTicketNonexistent() {
+	public void testGarageTicketNonexistent() throws RemoteException {
 		garage.printTicket();
 		assertEquals(false, garage.containsTicket("4"));
 	}
 	
 	@Test
-	public void testGarageLostTicket() {
+	public void testGarageLostTicket() throws RemoteException {
 		assertEquals(500, garage.getLostTicketFee());
 	}
 

@@ -1,9 +1,14 @@
-package common;
+package common.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import common.GarageUsage;
+import common.ParkingGarage;
+import common.Ticket;
+import server.ParkingGarageImpl;
 
 public class GarageUsageTest {
 
@@ -11,7 +16,7 @@ public class GarageUsageTest {
 	
 	@Before
 	public void initialize() {
-		garage = new ParkingGarage();
+		garage = new ParkingGarageImpl();
 	}
 	
 	@Test
