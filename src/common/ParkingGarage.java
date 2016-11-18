@@ -1,9 +1,9 @@
-package jcrivas.a5.jcrivas;
+package common;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ParkingGarage {
+public interface ParkingGarage extends java.rmi.remote {
 	private ParkingGarageView _view;
 	private int _totalSpots;
 	private int _totalDrivers;
