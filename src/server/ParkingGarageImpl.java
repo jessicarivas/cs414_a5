@@ -2,7 +2,7 @@ package server;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.rmi.RemoteException;
 import java.util.*;
 
 import java.util.Map;           // Superclass of TreeMap
@@ -28,10 +28,14 @@ public class ParkingGarageImpl
 	private GarageUsage gUsage;
 	private Bank _bank;
 	public ParkingGarage client;
-
- public ParkingGarageImpl ()
-	throws java.rmi.RemoteException {	
-		 super();
+	private static ParkingGarageImpl instance;
+ 
+	
+	private ParkingGarageImpl ()
+		throws java.rmi.RemoteException {	
+		
+		super();
+		instance = new ParkingGarageImpl();
 		client = null;
 		 _totalSpots = 0;
 		_totalDrivers = 0;
@@ -45,6 +49,10 @@ public class ParkingGarageImpl
 		gUsage = new GarageUsage();
 		_bank = new Bank();
  	}
+	
+	public static ParkingGarageImpl getInstance(){
+	      return instance;
+	}
 
 	public void addAdministrator(String name, String password) 
 			throws java.rmi.RemoteException {
@@ -205,5 +213,16 @@ public class ParkingGarageImpl
 		
 	}
 	
+	public void setClient(ParkingGarage garage) {
+		client = garage;
+	}
+	
+	public ParkingGarage getClient() {
+		return client;
+	}
+	
+	public void send(int s) throws RemoteException {
+		System.out.println(s);
+	}
 	
 }

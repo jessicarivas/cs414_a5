@@ -68,7 +68,7 @@ public interface ParkingGarage extends Remote {
 	public String getUsageString(String type, String time)
 			throws RemoteException;
 	
-	public void send(String msg) 
+	public void send(int availability) 
 			throws RemoteException;
 	
 	public void setClient(ParkingGarage garage)

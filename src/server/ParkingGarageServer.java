@@ -64,7 +64,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
       startRegistry(RMIPortNum);
 
       // set up the database
-      ParkingGarageImpl parkingGarage = new ParkingGarageImpl();
+      ParkingGarageImpl parkingGarage = ParkingGarageImpl.getInstance();
 
       registryURL = 
         "rmi://localhost:" + RMIPortNum + "/ParkingGarageServer";
@@ -74,6 +74,14 @@ public class ParkingGarageServer extends JFrame implements ActionListener
 
       ParkingGarageServer application = new ParkingGarageServer(parkingGarage);
       application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+      
+      while(true) {
+    	  if (parkingGarage.getClient()!=null){
+  			ParkingGarage client= parkingGarage.getClient();
+  			int availability = client.getAvailability();
+  			client.send(availability);
+    	  }
+      }
 
     }// end try
 
