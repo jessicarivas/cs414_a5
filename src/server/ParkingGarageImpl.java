@@ -115,12 +115,16 @@ public class ParkingGarageImpl
 
 		if(getAvailability() > 0)
 			_totalDrivers++;
+		doCallbacks();
 	}
 	
 	public void removeDriver()
 			throws java.rmi.RemoteException {
 		if (_totalDrivers > 0)
 			_totalDrivers--;
+		doCallbacks();
+
+		
 	}
 	
 	public void payTicket(int payment) 
@@ -187,6 +191,8 @@ public class ParkingGarageImpl
 		if (number >= _totalDrivers && number > 0) {
 			_totalSpots = number;
 		}
+		doCallbacks();
+
 	}
 
 	public void setTotalDrivers(int number)
@@ -253,8 +259,7 @@ public class ParkingGarageImpl
 		      GarageClientInterface nextClient = 
 		        (GarageClientInterface)clientList.elementAt(i);
 		      // invoke the callback method
-		        nextClient.notifyMe("Number of registered clients="
-		           +  clientList.size());
+		        nextClient.notifyMe(getAvailability());
 		    }// end for
 		    System.out.println("********************************\n" +
 		                       "Server completed callbacks ---");

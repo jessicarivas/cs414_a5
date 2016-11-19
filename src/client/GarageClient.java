@@ -24,21 +24,28 @@ import java.io.*;
 public class GarageClient extends JFrame 
 {
 private ParkingGarage _garage; 
+private ParkingGarageController controller;
+private ParkingGarageView view;
 
-
-public GarageClient (ParkingGarage garage) {
+public GarageClient (ParkingGarage garage, GarageClientInterface clientObj) {
 	super ("Garage Interface");
 	
 	// set up data
 	_garage = garage;
 	
-	 ParkingGarageController controller = new ParkingGarageController();
-	 ParkingGarageView view = new ParkingGarageView();
+	 controller = new ParkingGarageController();
+	 view = new ParkingGarageView();
 	 
 	  //Notify each component of the other components it needs
 	  controller.addModel(_garage);
+	  controller.addView(view);
 	  view.addModel(_garage);
 	  view.addController(controller);
+	  try {
+		clientObj.addController(controller);
+	} catch (RemoteException e1) {
+		e1.printStackTrace();
+	}
 	  
 	  //Build the application, then show it on the screen
 	  try {
@@ -50,6 +57,10 @@ public GarageClient (ParkingGarage garage) {
 
 }
 
+public ParkingGarageController getController() {
+	return controller;
+}
+
 // run the program using
 // java CalculatorClient <host> <port>
 // where the host and port refer to the rmiregistry's host and port
@@ -59,10 +70,11 @@ public GarageClient (ParkingGarage garage) {
                     Naming.lookup("rmi://" + args[0] + ":" + args[1]  + "/ParkingGarageServer");
        System.out.println( "connected! yay" );
        
-       GarageClient application = new GarageClient(garage); 
-       
        GarageClientInterface clientObj = 
-    	        new GarageClientImpl();
+   	        new GarageClientImpl();
+       GarageClient application = new GarageClient(garage, clientObj); 
+       
+
        garage.registerForCallback(clientObj);
 
 //         h.unregisterForCallback(callbackObj);
