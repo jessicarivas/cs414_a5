@@ -33,20 +33,6 @@ public class ParkingGarageServer extends JFrame implements ActionListener
    // get content pane and set its layout
    Container container = getContentPane();
    container.setLayout( layout );  
-   
-	  	JTextField sign = new JTextField();
-	    sign.setEditable(false);
-	    sign.setBackground(Color.gray);
-	    container.add(sign);
-	    
-	    JTextField gate = new JTextField();
-	    gate.setEditable(false);
-	    gate.setBackground(Color.white);
-	    container.add(gate);
-	    
-	  sign.setText  ("parking spots: " + dc.getAvailability());
-	  gate.setText("gate: " +  dc.getGatePosition());
-	  repaint();
 	  
    setSize( 700, 500 );
    setVisible( true );
