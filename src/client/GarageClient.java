@@ -65,6 +65,7 @@ public GarageClient (ParkingGarage garage) {
     	        new GarageClientImpl();
        garage.registerForCallback(clientObj);
 
+//         h.unregisterForCallback(callbackObj);
            
       }
 
@@ -82,5 +83,4 @@ public GarageClient (ParkingGarage garage) {
               System.out.println(ae);
          }
    }
-   garage.unregisterForCallback(clientObj);
 }

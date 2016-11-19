@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import java.rmi.*;
+import client.*;
 
 public interface ParkingGarage extends Remote {
 	
@@ -76,5 +77,14 @@ public interface ParkingGarage extends Remote {
 	
 	public ParkingGarage getClient()
 			throws RemoteException;
+	
+	public void registerForCallback(GarageClientInterface clientObject) 
+			throws java.rmi.RemoteException;
+
+		// This remote method allows an object client to 
+		// cancel its registration for callback
+
+	public void unregisterForCallback(GarageClientInterface clientObject)
+			throws java.rmi.RemoteException;
 
 }
