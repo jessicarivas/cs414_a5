@@ -2,8 +2,6 @@ package server;
 
 import common.ParkingGarage;
 
-
-import java.rmi.Naming;
 import java.rmi.*;
 import java.rmi.server.*;
 import java.rmi.registry.Registry;
@@ -24,7 +22,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
  private JButton saveButton;
  private JButton exitButton;
 
- public ParkingGarageServer (ParkingGarageImpl parkingGarageParm)
+ public ParkingGarageServer (ParkingGarageImpl parkingGarageParm) throws RemoteException
   {
    super ("Parking Garage Server Interface");
 
@@ -36,7 +34,20 @@ public class ParkingGarageServer extends JFrame implements ActionListener
    Container container = getContentPane();
    container.setLayout( layout );  
    
-
+	  	JTextField sign = new JTextField();
+	    sign.setEditable(false);
+	    sign.setBackground(Color.gray);
+	    container.add(sign);
+	    
+	    JTextField gate = new JTextField();
+	    gate.setEditable(false);
+	    gate.setBackground(Color.white);
+	    container.add(gate);
+	    
+	  sign.setText  ("parking spots: " + dc.getAvailability());
+	  gate.setText("gate: " +  dc.getGatePosition());
+	  repaint();
+	  
    setSize( 700, 500 );
    setVisible( true );
 
@@ -64,7 +75,7 @@ public class ParkingGarageServer extends JFrame implements ActionListener
       startRegistry(RMIPortNum);
 
       // set up the database
-      ParkingGarageImpl parkingGarage = ParkingGarageImpl.getInstance();
+      ParkingGarageImpl parkingGarage = new ParkingGarageImpl();
 
       registryURL = 
         "rmi://localhost:" + RMIPortNum + "/ParkingGarageServer";
@@ -74,7 +85,8 @@ public class ParkingGarageServer extends JFrame implements ActionListener
 
       ParkingGarageServer application = new ParkingGarageServer(parkingGarage);
       application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-      
+
+    
       while(true) {
     	  if (parkingGarage.getClient()!=null){
   			ParkingGarage client= parkingGarage.getClient();

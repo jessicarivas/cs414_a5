@@ -60,6 +60,11 @@ public GarageClient (ParkingGarage garage) {
        System.out.println( "connected! yay" );
        
        GarageClient application = new GarageClient(garage); 
+       
+       GarageClientInterface clientObj = 
+    	        new GarageClientImpl();
+       garage.registerForCallback(clientObj);
+
            
       }
 
@@ -77,4 +82,5 @@ public GarageClient (ParkingGarage garage) {
               System.out.println(ae);
          }
    }
+   garage.unregisterForCallback(clientObj);
 }

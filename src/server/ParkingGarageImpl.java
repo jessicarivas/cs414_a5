@@ -11,6 +11,7 @@ import java.util.TreeMap;       // A container that supports lookup of values
 import java.util.Iterator;      // Used to traverse the TreeMap
 
 import common.*;
+import client.*;
 
 public class ParkingGarageImpl 
 	extends 	java.rmi.server.UnicastRemoteObject
@@ -27,15 +28,13 @@ public class ParkingGarageImpl
 	private Set<Administrator> _admins;
 	private GarageUsage gUsage;
 	private Bank _bank;
+	private Vector clientList;
 	public ParkingGarage client;
-	private static ParkingGarageImpl instance;
- 
-	
-	private ParkingGarageImpl ()
-		throws java.rmi.RemoteException {	
-		
-		super();
-		instance = new ParkingGarageImpl();
+
+ public ParkingGarageImpl ()
+	throws java.rmi.RemoteException {	
+		 super();
+	     clientList = new Vector();
 		client = null;
 		 _totalSpots = 0;
 		_totalDrivers = 0;
@@ -49,10 +48,6 @@ public class ParkingGarageImpl
 		gUsage = new GarageUsage();
 		_bank = new Bank();
  	}
-	
-	public static ParkingGarageImpl getInstance(){
-	      return instance;
-	}
 
 	public void addAdministrator(String name, String password) 
 			throws java.rmi.RemoteException {
@@ -224,5 +219,46 @@ public class ParkingGarageImpl
 	public void send(int s) throws RemoteException {
 		System.out.println(s);
 	}
+	
+
+	  public synchronized void registerForCallback(GarageClientInterface callbackClientObject)
+	    throws java.rmi.RemoteException {
+	      // store the callback object into the vector
+	      if (!(clientList.contains(callbackClientObject))) {
+	         clientList.addElement(callbackClientObject);
+	      System.out.println("Registered new client ");
+	      doCallbacks();
+	    } // end if
+	  }  
+
+
+	  public synchronized void unregisterForCallback(GarageClientInterface callbackClientObject) 
+	    throws java.rmi.RemoteException {
+	    if (clientList.removeElement(callbackClientObject)) {
+	      System.out.println("Unregistered client ");
+	    } else {
+	       System.out.println(
+	         "unregister: client wasn't registered.");
+	    }
+	  } 
+	  
+	  private synchronized void doCallbacks( ) throws java.rmi.RemoteException{
+		    // make callback to each registered client
+		    System.out.println(
+		       "**************************************\n"
+		        + "Callbacks initiated ---");
+		    for (int i = 0; i < clientList.size(); i++){
+		      System.out.println("doing "+ i +"-th callback\n");    
+		      // convert the vector object to a callback object
+		      GarageClientInterface nextClient = 
+		        (GarageClientInterface)clientList.elementAt(i);
+		      // invoke the callback method
+		        nextClient.notifyMe("Number of registered clients="
+		           +  clientList.size());
+		    }// end for
+		    System.out.println("********************************\n" +
+		                       "Server completed callbacks ---");
+		  } // doCallbacks
+
 	
 }
