@@ -3,12 +3,6 @@ package client;
 import java.rmi.*;
 import java.rmi.server.*;
 
-/**
- * This class implements the remote interface 
- * CallbackClientInterface.
- * @author M. L. Liu
- */
-
 public class GarageClientImpl extends UnicastRemoteObject
      implements GarageClientInterface {
   

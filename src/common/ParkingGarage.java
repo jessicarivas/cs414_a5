@@ -51,12 +51,7 @@ public interface ParkingGarage extends Remote {
 	public int getLostTicketFee()	
 			throws RemoteException;
 
-	
-//	private Driver getDriver(int ticket)
-//			throws RemoteException;
-//
-
-	public int getTicketCost(int ticket)
+		public int getTicketCost(int ticket)
 			throws RemoteException;
 
 
@@ -71,6 +66,15 @@ public interface ParkingGarage extends Remote {
 			throws RemoteException;
 
 	public String getUsageString(String type, String time)
+			throws RemoteException;
+	
+	public void send(String msg) 
+			throws RemoteException;
+	
+	public void setClient(ParkingGarage garage)
+			throws RemoteException;
+	
+	public ParkingGarage getClient()
 			throws RemoteException;
 
 }

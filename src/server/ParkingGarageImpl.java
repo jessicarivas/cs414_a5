@@ -27,11 +27,12 @@ public class ParkingGarageImpl
 	private Set<Administrator> _admins;
 	private GarageUsage gUsage;
 	private Bank _bank;
-	
+	public ParkingGarage client;
+
  public ParkingGarageImpl ()
 	throws java.rmi.RemoteException {	
 		 super();
-		
+		client = null;
 		 _totalSpots = 0;
 		_totalDrivers = 0;
 		_lostTicketFee = 500;
@@ -203,4 +204,6 @@ public class ParkingGarageImpl
 		return usage;
 		
 	}
+	
+	
 }
