@@ -1,3 +1,5 @@
+package client;
+
 import java.rmi.*;
 import java.rmi.server.*;
 
